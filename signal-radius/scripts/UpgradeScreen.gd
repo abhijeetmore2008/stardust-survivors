@@ -4,9 +4,11 @@ extends CanvasLayer
 var upgrade_pool := ["move_speed", "damage", "fire_rate", "beam_width", "beam_range", "max_hp"]
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	for b in buttons:
 		b.pressed.connect(_on_pick.bind(b))
+	GameManager.wave_cleared.connect(show_upgrades)
 
 func show_upgrades() -> void:
 	visible = true
@@ -24,4 +26,4 @@ func _on_pick(button: Button) -> void:
 		player.apply_upgrade(id)
 	visible = false
 	get_tree().paused = false
-
+	GameManager.start_next_wave()

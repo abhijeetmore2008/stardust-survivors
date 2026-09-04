@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var stats_label: Label = $Panel/StatsLabel
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	GameManager.game_over.connect(show_game_over)
 	$Panel/RestartButton.pressed.connect(_on_restart)
@@ -14,4 +15,4 @@ func show_game_over() -> void:
 
 func _on_restart() -> void:
 	get_tree().paused = false
-	get_tree().reload_current_scene() 
+	get_tree().reload_current_scene()
