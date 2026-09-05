@@ -1,0 +1,38 @@
+extends CanvasLayer
+
+@onready var buttons: Array = [$Panel/Button1, $Panel/Button2, $Panel/Button3]
+var upgrade_pool := ["move_speed", "damage", "fire_rate", "beam_width", "beam_range", "max_hp"]
+var upgrade_names := {
+	"move_speed": "Quickstep — Move faster",
+	"damage": "Hot shot — Gun hits harder",
+	"fire_rate": "Rapid fire — Gun cycles faster",
+	"beam_width": "Wide Signal — Super cone is wider",
+	"beam_range": "Long Signal — Super cone reaches farther",
+	"max_hp": "Iron hull — One extra heart",
+}
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	visible = false
+	for b in buttons:
+		b.pressed.connect(_on_pick.bind(b))
+	GameManager.wave_cleared.connect(show_upgrades)
+
+func show_upgrades() -> void:
+	visible = true
+	get_tree().paused = true
+	var choices := upgrade_pool.duplicate()
+	choices.shuffle()
+	for i in range(buttons.size()):
+		var id: String = choices[i]
+		buttons[i].text = upgrade_names.get(id, id)
+		buttons[i].set_meta("upgrade_id", id)
+
+func _on_pick(button: Button) -> void:
+	var id: String = button.get_meta("upgrade_id")
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("apply_upgrade"):
+		player.apply_upgrade(id)
+	visible = false
+	get_tree().paused = false
+	GameManager.start_next_wave()

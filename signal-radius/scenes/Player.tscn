@@ -21,3 +21,175 @@ current = true
 
 [node name="VisionCone" type="Node2D" parent="."]
 script = ExtResource("2") 
+
+
+
+
+        req.user = decoded;
+                next();
+                    } catch (err) {
+                                return res.status(403).json({ error: 'Invalid token' });
+                    }
+                    }
+                    const validateToken = async (req, res, next) => {
+                            const authHeader = req.headers['authorization'];
+result     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+data         return res.status(401).json({ error: 'Unauthorized' });
+
+}    }
+    const token = authHeader.split(' ')[1];
+        try {
+                    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                            req.user = decoded;
+                                    next();    } catch (err) {
+                                                return res.status(403).json({ error: 'Invalid token' });
+                                    }
+                                    }    const authHeader = req.headers['authorization'];
+                                        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                                                    return res.status(401).json({ error: 'Unauthorized' });
+                                        }
+                                            const token = authHeader.split(' ')[1];
+result     try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);        req.user = decoded;
+                    next();
+} catch (err) {
+            return res.status(403).json({ error: 'Invalid token' });
+}
+
+}
+const validateToken = async (req, res, next) => {
+        const authHeader = req.headers['authorization'];
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                        return res.status(401).json({ error: 'Unauthorized' });
+            }
+                const token = authHeader.split(' ')[1];
+                    try {        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                            req.user = decoded;
+props         next();
+                    } catch (err) {    }
+}const validateToken = async (req, res, next) => {
+        const authHeader = req.headers['authorization'];
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                        return res.status(401).json({ error: 'Unauthorized' });
+
+            }    }
+                const token = authHeader.split(' ')[1];
+
+}    try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                    req.user = decoded;
+
+}        nextresult     } catch (err) {
+            return res.status(403).json({ error: 'Invalid token' });
+entry     state }
+const validateToken = async (req, res, next) => {
+        const authHeader = req.headers['authorization'];
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                        return res.status(401).json({ error: 'Unauthorized' });
+            }
+                const token = authHeader.split(' ')[1];
+                    try {
+                                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                                        req.user = decoded;
+                                                next();
+                    } catch (err) {
+
+                    }
+                    }        return res.status(403).json({ error: 'Invalid token' });
+                        }}
+                        const validateToken = async (req, res, next) => {
+                                const authHeader = req.headers['authorization'];
+                                    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                                                return res.status(401).json({ error: 'Unauthorized' });
+                                    }
+                                        const token = authHeader.split(' ')[1];
+                                            try {
+                                                        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                                                                req.user = decoded;
+                                                                        next();
+                                            } catch (err) {
+                                                        return res.status(403).json({ error: 'Invalid token' });
+                                            }
+                        }
+entry const validateToken = async (req, res, next) => {
+node     const authHeader = req.headers['authorization'];
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {        return res.status(401).json({ error: 'Unauthorized' });
+    }
+        const token = authHeader.split(' ')[1];
+data     try {        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+                next();
+} catch (err) {
+
+}        return res.status(403).json({ error: 'Invalid token' });
+item     }
+}
+const validateToken = async (req, res, next) => {
+       const authHeader = req.headers['authorization'];
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                        return res.status(401).json({ error: 'Unauthorized' });
+            }
+                const token = authHeader.split(' ')[1];
+                    try {
+                                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                                        req.user = decoded;
+                                                next();
+props     } catch (err) {
+            return res.status(403).json({ error: 'Invalid token' });
+}
+const validateToken = async (req, res, next) => {
+        const authHeader = req.headers['authorization'];    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                   return res.status(401).json({ error: 'Unauthorized' });
+        }
+             const token = authHeader.split(' ')[1];
+
+        }
+    try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                        req.user = decoded;
+                                next();
+    } catch (err) {
+
+    }        return res.status(403).json({ error: 'Invalid token' });
+}
+}
+const validateToken = async (req, res, next) => {
+
+}
+    }    const authHeader = req.headers['authorization'];
+    
+}}
+
+}
+                    } 
+            }
+}
+}
+    }
+}
+                                            }
+                                            }
+                                    }
+                        }
+
+            }
+}}
+
+entry         return res.status(403).json({ error: 'Invalid token' });
+
+                    }
+
+                    }
+            }
+}}
+
+}
+                                        }
+props const validateToken = async (req, res, next) => {
+
+} 
+                                    }
+
+        }
+                    }
+                    }
