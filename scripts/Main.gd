@@ -5,25 +5,68 @@ const MAP := 44
 
 @onready var ground: Node2D = $Ground
 @onready var props: Node2D = $Props
-@onready var title: CanvasLayer = $TitleScreen
+
+var title_layer: CanvasLayer
 
 func _ready() -> void:
 	GameManager.reset()
 	GameManager.started = false
 	_build_ground()
 	_build_props()
-	title.visible = true
-	$TitleScreen/Panel/Deploy.pressed.connect(_on_deploy)
+	_build_title()
 
 func _on_deploy() -> void:
-	title.visible = false
+	if title_layer:
+		title_layer.visible = false
 	GameManager.start_run()
+
+func _tex(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	var alt := path.replace("res://sprites/", "res://assets/sprites/")
+	if ResourceLoader.exists(alt):
+		return load(alt)
+	return null
+
+func _build_title() -> void:
+	title_layer = CanvasLayer.new()
+	title_layer.layer = 20
+	add_child(title_layer)
+	var dim := ColorRect.new()
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.color = Color(0, 0, 0, 0.22)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_layer.add_child(dim)
+	var panel := Panel.new()
+	panel.position = Vector2(400, 190)
+	panel.size = Vector2(480, 340)
+	title_layer.add_child(panel)
+	var title := Label.new()
+	title.text = "Signal Radius"
+	title.position = Vector2(24, 36)
+	title.size = Vector2(432, 48)
+	title.add_theme_font_size_override("font_size", 36)
+	panel.add_child(title)
+	var blurb := Label.new()
+	blurb.text = "Hold the outpost. Your gun keeps the shades back. Chain kills to charge Signal — dump it for seven seconds of raw light.\n\nWASD move · mouse aim · hold click to fire\nFill combo, then F / B to drop Signal"
+	blurb.position = Vector2(24, 96)
+	blurb.size = Vector2(432, 140)
+	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	panel.add_child(blurb)
+	var deploy := Button.new()
+	deploy.text = "Deploy"
+	deploy.position = Vector2(24, 250)
+	deploy.size = Vector2(432, 46)
+	deploy.pressed.connect(_on_deploy)
+	panel.add_child(deploy)
 
 func _build_ground() -> void:
 	var tiles: Array[Texture2D] = []
 	for r in range(4):
 		for c in range(4):
-			tiles.append(load("res://sprites/tiles/tile-%d-%d.png" % [r, c]))
+			tiles.append(_tex("res://sprites/tiles/tile-%d-%d.png" % [r, c]))
+	if tiles[0] == null:
+		return
 	var origin := -MAP * TILE / 2
 	for y in range(MAP):
 		for x in range(MAP):
@@ -48,7 +91,9 @@ func _build_ground() -> void:
 			ground.add_child(s)
 
 func _build_props() -> void:
-	var sheet: Texture2D = load("res://sprites/props.png")
+	var sheet := _tex("res://sprites/props.png")
+	if sheet == null:
+		return
 	for i in range(70):
 		var a := (i / 70.0) * TAU + (i % 5) * 0.2
 		var r := 140.0 + (i % 9) * 70.0 + float((i * 17) % 40)
@@ -71,11 +116,3 @@ func _add_prop(sheet: Texture2D, pos: Vector2, cell: int, cols: int) -> void:
 	s.position = pos
 	s.scale = Vector2(0.45, 0.45) if cell < 3 else Vector2(0.32, 0.32)
 	props.add_child(s)
-	if cell < 3:
-		var body := StaticBody2D.new()
-		var col := CollisionShape2D.new()
-		var circle := CircleShape2D.new()
-		circle.radius = 22.0 if cell < 3 else 12.0
-		col.shape = circle
-		body.add_child(col)
-		s.add_child(body)

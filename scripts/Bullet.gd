@@ -4,6 +4,15 @@ var vel: Vector2 = Vector2.ZERO
 var life: float = 0.55
 var dmg: float = 16.0
 
+func _ready() -> void:
+	var sprite := get_node_or_null("Sprite2D") as Sprite2D
+	if sprite and sprite.texture == null:
+		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		if ResourceLoader.exists("res://sprites/projectile.png"):
+			sprite.texture = load("res://sprites/projectile.png")
+		elif ResourceLoader.exists("res://assets/sprites/projectile.png"):
+			sprite.texture = load("res://assets/sprites/projectile.png")
+
 func _physics_process(delta: float) -> void:
 	position += vel * delta
 	life -= delta

@@ -39,28 +39,35 @@ func setup(p_kind: Kind, wave: int) -> void:
 			move_speed = 72.0 + w * 11.0
 			contact_damage = 12.0 + w * 1.5
 			radius = 11.0
-			sprite.texture = load("res://sprites/walker.png")
 		Kind.RUSHER:
 			max_hp = 20.0 + w * 6.0
 			move_speed = 96.0 + w * 14.0
 			contact_damage = 14.0 + w * 2.0
 			radius = 10.0
-			sprite.texture = load("res://sprites/rusher.png")
 		Kind.FLANKER:
 			max_hp = 24.0 + w * 7.0
 			move_speed = 88.0 + w * 12.0
 			contact_damage = 13.0 + w * 1.8
 			radius = 11.0
-			sprite.texture = load("res://sprites/rusher.png")
 		Kind.BRUTE:
 			max_hp = 70.0 + w * 18.0
 			move_speed = 52.0 + w * 7.0
 			contact_damage = 22.0 + w * 2.5
 			radius = 16.0
-			sprite.texture = load("res://sprites/brute.png")
 	hp = max_hp
+	_load_kind_sprite()
+
+func _load_kind_sprite() -> void:
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.hframes = 4
 	sprite.vframes = 4
+	var names := ["walker", "rusher", "rusher", "brute"]
+	var file := names[kind]
+	var path := "res://sprites/%s.png" % file
+	if not ResourceLoader.exists(path):
+		path = "res://assets/sprites/%s.png" % file
+	if ResourceLoader.exists(path):
+		sprite.texture = load(path)
 
 func _physics_process(delta: float) -> void:
 	if GameManager.state != GameManager.State.PLAYING:

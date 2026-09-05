@@ -21,17 +21,29 @@ var facing: int = 0
 
 @onready var vision: Node2D = $VisionCone
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var camera: Camera2D = $Camera2D
 
 func _ready() -> void:
 	hp = max_hp
 	add_to_group("player")
 	GameManager.kill_registered.connect(add_combo)
 	GameManager.run_started.connect(_on_run_started)
-	if sprite.texture == null:
-		sprite.texture = load("res://sprites/player.png")
+	if bullet_scene == null and ResourceLoader.exists("res://scenes/Bullet.tscn"):
+		bullet_scene = load("res://scenes/Bullet.tscn")
+	_load_sprite()
+	if camera:
+		camera.make_current()
+		camera.position_smoothing_enabled = true
+		camera.position_smoothing_speed = 8.0
+
+func _load_sprite() -> void:
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.hframes = 4
 	sprite.vframes = 4
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if ResourceLoader.exists("res://sprites/player.png"):
+		sprite.texture = load("res://sprites/player.png")
+	elif ResourceLoader.exists("res://assets/sprites/player.png"):
+		sprite.texture = load("res://assets/sprites/player.png")
 
 func _on_run_started() -> void:
 	move_speed = 210.0
@@ -64,11 +76,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 
-	if Input.is_action_just_pressed("signal_super"):
-		try_signal()
-
 	_update_sprite(delta)
 	move_and_slide()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_F:
+		try_signal()
 
 func _handle_movement() -> void:
 	var dir := Vector2.ZERO
@@ -88,13 +101,15 @@ func _handle_movement() -> void:
 func _handle_gun() -> void:
 	if fire_cooldown > 0.0:
 		return
-	if not (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_pressed("fire")):
+	if not (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_pressed("fire") or Input.is_physical_key_pressed(KEY_SPACE)):
 		return
 	if bullet_scene == null:
 		return
 	var bullet := bullet_scene.instantiate()
 	var mouse := get_global_mouse_position()
 	var aim := (mouse - global_position).normalized()
+	if aim.length() < 0.001:
+		aim = Vector2.RIGHT
 	bullet.global_position = global_position + aim * 16.0
 	bullet.vel = aim * 520.0
 	bullet.dmg = damage
