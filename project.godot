@@ -11,6 +11,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameManager="*res://scripts/GameManager.gd"
+Meta="*res://scripts/Meta.gd"
+Audio="*res://scripts/Audio.gd"
 
 [display]
 

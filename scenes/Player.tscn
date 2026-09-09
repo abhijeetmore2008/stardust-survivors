@@ -20,10 +20,9 @@ polygon = PackedVector2Array(-12, -12, 12, -12, 12, 12, -12, 12)
 [node name="Sprite2D" type="Sprite2D" parent="."]
 hframes = 4
 vframes = 4
-scale = Vector2(0.46, 0.46)
+scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-current = true
 
 [node name="VisionCone" type="Node2D" parent="."]
 visible = false
